@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'menupage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +12,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    const Center(child: Text('Здесь будет список еды')),
+    const MenuPage(),
     const Center(child: Text('Здесь будет корзина')),
   ];
 
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
 
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Меню'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Категория'),
+          BottomNavigationBarItem(icon: Icon(Icons.category), label: 'Категория'),
         ],
       ),
     );
