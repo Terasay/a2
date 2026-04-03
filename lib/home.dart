@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'menupage.dart';
+import 'category.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +14,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const MenuPage(),
-    const Center(child: Text('Здесь будет корзина')),
+    const CategoryPage(),
   ];
 
   @override 
@@ -25,7 +26,6 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {
-              print('корзина');
             },
           )
         ],
