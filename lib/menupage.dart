@@ -21,32 +21,98 @@ class _MenuPageState extends State<MenuPage> {
     _loadData();
   }
 
-  // Загружаем и фильтруем данные
   Future<void> _loadData() async {
     final allFood = await DataService.loadFoodMenu();
-    
-    // Оставляем только блюда с рейтингом 4.5 и выше
+
     final highRated = allFood.where((item) => item.score >= 4.5).toList();
-    
+
     setState(() {
-      highRated.shuffle(Random()); // Перемешиваем
-      _recommendedFood = highRated.take(5).toList(); // Берем 5 штук
-      
-      highRated.shuffle(Random()); // Снова перемешиваем
-      _hotFood = highRated.take(5).toList(); // Берем еще 5 штук
-      
-      _isLoading = false; // Выключаем загрузку
+      highRated.shuffle(Random());
+      _recommendedFood = highRated.take(5).toList();
+
+      highRated.shuffle(Random());
+      _hotFood = highRated.take(5).toList();
+
+      _isLoading = false;
     });
   }
 
-  // ТВОЯ ЗАДАЧА: Написать этот виджет!
   Widget _buildHorizontalList(String title, List<FoodItem> items) {
-    // Подсказка: здесь нужно вернуть Column.
-    // Внутри Column должен быть:
-    // 1. Text(title) - заголовок списка
-    // 2. SizedBox(height: 250, child: ListView.builder(...)) - сам горизонтальный список
-    
-    return Container(); // Замени эту строчку на свой код
+    return Column(
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+
+        SizedBox(
+          height: 280,
+          child: ListView.builder(
+            itemCount: items.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return SizedBox(
+                width: 300,
+                child: Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                        child: Image.asset(
+                          'assets/images/${item.imageUrl}',
+                          height: 150,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          item.name,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          '\$${item.price.toStringAsFixed(2)}',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          item.remark,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(
+                          'Rating: ${item.score}',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   @override
